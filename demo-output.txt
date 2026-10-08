@@ -1,0 +1,184 @@
+
+=== step1_recall.py
+100 switches, 4,950 wires. Three pictures stored: heart, house, face.
+   wire strengths: -3: 580, -1: 1,850, +1: 1,856, +3: 664
+A heart with 25 of 100 squares flipped. One round through the switches: 25 flips, 0 squares wrong at the end.
+....#.####
+.....#.###
+####..#.##
+.#########
+#.####.###
+###...###.
+..##.####.
+#.##.##...
+...##....#
+..........
+
+..........
+.##....##.
+####..####
+##########
+##########
+.########.
+..######..
+...####...
+....##....
+..........
+   heart, bottom half wiped: 20 squares wrong before, 0 after
+   house, bottom half wiped: 22 squares wrong before, 0 after
+   face, bottom half wiped: 20 squares wrong before, 0 after
+   10 squares flipped, 1,000 tries each: came back heart 1,000, house 1,000, face 1,000   (ended as the negative: 0)
+   20 squares flipped, 1,000 tries each: came back heart 1,000, house 1,000, face 999   (ended as the negative: 0)
+   30 squares flipped, 1,000 tries each: came back heart 988, house 987, face 984   (ended as the negative: 0)
+   40 squares flipped, 1,000 tries each: came back heart 749, house 732, face 726   (ended as the negative: 0)
+   45 squares flipped, 1,000 tries each: came back heart 331, house 342, face 336   (ended as the negative: 0)
+   50 squares flipped, 1,000 tries each: came back heart 6, house 9, face 13   (ended as the negative: 28)
+   60 squares flipped, 1,000 tries each: came back heart 0, house 0, face 0   (ended as the negative: 2,263)
+
+=== step2_energy.py
+energy of the stored pictures: heart -4,954, house -4,954, face -4,994
+energy of 1,000 random states: from -514 to 150, average 7
+the damaged heart: energy -1,120 at the start, -4,954 at the end, 25 flips; smallest drop 90, largest 230
+1,000 random starts: 43,876 flips in all, 0 raised the energy, 0 left it the same; every start stopped, the slowest after 3 rounds
+
+=== step3_cut.py
+    0% of the wires cut (4,950 left): 899 of 900 damaged pictures came back whole; on average 0.0 of 100 squares wrong
+   25% of the wires cut (3,712 left): 900 of 900 damaged pictures came back whole; on average 0.0 of 100 squares wrong
+   50% of the wires cut (2,475 left): 900 of 900 damaged pictures came back whole; on average 0.0 of 100 squares wrong
+   75% of the wires cut (1,238 left): 899 of 900 damaged pictures came back whole; on average 0.0 of 100 squares wrong
+   90% of the wires cut (495 left): 0 of 900 damaged pictures came back whole; on average 5.7 of 100 squares wrong
+   95% of the wires cut (248 left): 0 of 900 damaged pictures came back whole; on average 17.6 of 100 squares wrong
+   98% of the wires cut (99 left): 0 of 900 damaged pictures came back whole; on average 30.3 of 100 squares wrong
+   wires on one switch: 99. Each wire counts three pictures at once, as one number from -3 to +3.
+
+=== step4_ghosts.py
+10,000 random starts. Where they stopped:
+   a stored picture: heart 1,424, house 1,299, face 1,350   (4,073)
+   the negative of one: heart 1,333, house 1,371, face 1,315   (4,019)
+   a blend of all three (each square by majority vote): 1,908
+   anything else: 0 starts, 0 different states
+the plain blend differs from heart, house, face in 23, 23, 33 squares; energy -3,344 against -4,954 for the heart
+....##....
+.#......#.
+#.##..##.#
+##########
+##########
+.#......#.
+..###..#..
+...####...
+.#..#...#.
+..######..
+add a tree (it differs from the house in 28 squares, from the heart in 32):
+   shown the exact tree, the network changes 4 squares of it
+   the first three from 20 flipped squares, 1,000 tries each: heart 903, house 860, face 956
+add a key instead (it differs from the others in 37, 49, 41 squares): heart 997, house 1000, face 1000, key 1000
+
+=== step5_capacity.py
+100 switches. Stored: heart, house, face, then random pictures one by one.
+Each time the heart is asked back from a copy with 10 squares flipped. 300 different runs.
+
+pictures stored   heart back whole   wrong squares on average   heart still a resting place
+       3          300 of 300                   0.0               300 of 300
+       6          299 of 300                   0.0               299 of 300
+       9          292 of 300                   0.2               295 of 300
+      12          267 of 300                   0.7               277 of 300
+      15          207 of 300                   2.9               230 of 300
+      18          121 of 300                   7.3               155 of 300
+      21           57 of 300                  12.8               104 of 300
+      24           19 of 300                  19.3                57 of 300
+      27            7 of 300                  22.3                32 of 300
+      30            3 of 300                  24.9                15 of 300
+
+3 pictures stored. Wrong squares in the heart, first twelve runs: 0 0 0 0 0 0 0 0 0 0 0 0
+9 pictures stored. Wrong squares in the heart, first twelve runs: 0 0 0 0 0 0 0 0 0 0 0 0
+15 pictures stored. Wrong squares in the heart, first twelve runs: 0 0 10 0 0 5 12 0 0 0 0 9
+21 pictures stored. Wrong squares in the heart, first twelve runs: 0 22 12 25 9 1 15 6 0 6 30 20
+27 pictures stored. Wrong squares in the heart, first twelve runs: 23 17 13 31 17 22 34 6 40 3 19 22
+
+Run 1 with 27 pictures stored:
+.#......##
+.##.#..##.
+####..##..
+#.#...###.
+#########.
+.########.
+#######.#.
+..######..
+#....#....
+#.......##
+
+Random pictures only. A stored picture is put in untouched, and the network runs until it rests.
+Share of squares that end up wrong:
+
+pictures per 100 switches        5       8      10      12      14      16      18      20      25      30
+ 100 switches                 0.0%    0.0%    0.1%    0.4%    1.1%    2.7%    4.5%    7.3%   14.8%   21.9%
+ 200 switches                 0.0%    0.0%    0.1%    0.7%    1.6%    4.1%    6.8%   11.5%   22.1%   27.6%
+ 400 switches                 0.0%    0.0%    0.1%    0.4%    2.0%    6.0%   11.6%   20.6%   29.6%   32.7%
+
+=== step6_dense.py
+Power 2 against the network with wires, 200 random starts: the same end state in 200 of 200.
+
+Four pictures: heart, house, face and the tree. Each asked back 1,000 times from 20 flipped squares.
+power       heart   house    face    tree
+    2         903     838     960       0
+    3        1000    1000    1000    1000
+    4        1000    1000    1000    1000
+
+Random pictures in 100 switches. 20 of them are asked back from 10 flipped squares.
+Pictures that come back whole:
+power          10      30     100     300    1000    3000   pictures stored
+    2       10/10    0/20    0/20    0/20    0/20    0/20
+    3       10/10   20/20   20/20   20/20    0/20    0/20
+    4       10/10   20/20   20/20   20/20   20/20   20/20
+
+Power 2, 2000 random starts: a stored picture 780, a negative 830, anything else 390.
+Power 3, 2000 random starts: a stored picture 1999, a negative 0, anything else 1.
+Power 4, 2000 random starts: a stored picture 982, a negative 1018, anything else 0.
+
+Heart, house, face and 27 random pictures, power 2: the heart came back whole in 2 of 50 runs.
+Heart, house, face and 27 random pictures, power 4: the heart came back whole in 50 of 50 runs.
+Heart, house, face and 1000 random pictures, power 2: the heart came back whole in 0 of 50 runs.
+Heart, house, face and 1000 random pictures, power 4: the heart came back whole in 50 of 50 runs.
+
+=== step7_attention.py
+Six pictures stored: heart, house, face, tree, key, cup. The heart with 25 squares flipped goes in. Beta is 1.
+Overlap with each picture: heart 50, house 2, face -6, tree 14, key 8, cup -16
+Shares after one move:     heart 1.000000, house 0.000000, face 0.000000, tree 0.000000, key 0.000000, cup 0.000000
+Squares wrong after one move: 0
+
+The same start at different settings of beta:
+beta 0.001  shares after 20 moves: heart 0.17 house 0.17 face 0.17 tree 0.17 key 0.17 cup 0.17
+beta 0.01   shares after 20 moves: heart 0.17 house 0.17 face 0.15 tree 0.17 key 0.17 cup 0.17
+beta 0.02   shares after 20 moves: heart 0.18 house 0.17 face 0.12 tree 0.19 key 0.18 cup 0.16
+beta 0.03   shares after 20 moves: heart 0.19 house 0.19 face 0.09 tree 0.22 key 0.17 cup 0.14
+beta 0.05   shares after 20 moves: heart 0.86 house 0.02 face 0.01 tree 0.07 key 0.04 cup 0.01
+beta 0.1    shares after 20 moves: heart 1.00 house 0.00 face 0.00 tree 0.00 key 0.00 cup 0.00
+beta 1.0    shares after 20 moves: heart 1.00 house 0.00 face 0.00 tree 0.00 key 0.00 cup 0.00
+
+Beta 0.001: the network rests in a mix of everything it knows.
+    ::    
+ x:x::: . 
+x :::.xx..
+x::xxx#x#:
+#.::x:xx:x
+.x::..:xx.
+:.:::.::..
+ . x#x.   
+ .  :.  . 
+ .:xxxx:. 
+
+Random pictures in 100 switches, beta 1. 20 are asked back from 25 flipped squares, one move each.
+   100 pictures stored: 20 of 20 back whole. Smallest share the right picture got: 1.0000
+  1000 pictures stored: 20 of 20 back whole. Smallest share the right picture got: 1.0000
+ 10000 pictures stored: 20 of 20 back whole. Smallest share the right picture got: 0.9997
+ 30000 pictures stored: 20 of 20 back whole. Smallest share the right picture got: 0.8808
+
+recall(pictures, state) against attention(query=state, keys=pictures, values=pictures), 150 cases:
+largest difference in any square: 0.0e+00
+
+Keys are the six pictures, values are the six names. A damaged picture goes in as the question.
+damaged heart  -> heart 1.0000 house 0.0000 face 0.0000 tree 0.0000 key 0.0000 cup 0.0000
+damaged tree   -> heart 0.0000 house 0.0000 face 0.0000 tree 1.0000 key 0.0000 cup 0.0000
+damaged key    -> heart 0.0000 house 0.0000 face 0.0000 tree 0.0000 key 1.0000 cup 0.0000
+
+all checks passed
